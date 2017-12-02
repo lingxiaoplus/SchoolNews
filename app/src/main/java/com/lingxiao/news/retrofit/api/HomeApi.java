@@ -14,5 +14,5 @@ import retrofit2.http.GET;
 
 public interface HomeApi {
     @GET("/nc/topicset/android/subscribe/manage/listspecial.html")
-    Observable<HttpResponse> listInfo();
+    Observable<HomeListModle> getListInfo();
 }

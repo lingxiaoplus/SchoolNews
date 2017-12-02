@@ -15,6 +15,7 @@ import com.lingxiao.news.R;
 import com.lingxiao.news.adapter.MainPagerAdapter;
 import com.lingxiao.news.adapter.TabEntity;
 import com.lingxiao.news.presenter.HomePresenter;
+import com.lingxiao.news.utils.LogUtils;
 import com.lingxiao.news.view.HomeView;
 
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ public class HomeFragment extends BaseFragment implements HomeView{
     private ViewPager vpHome;
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
     private String[] mTitles = {"首页", "消息", "联系人", "更多","首页", "消息", "联系人", "更多"};
+    private HomePresenter presenter;
 
     @Override
     public View initView() {
@@ -44,18 +46,18 @@ public class HomeFragment extends BaseFragment implements HomeView{
             mTabEntities.add(new TabEntity(mTitles[i]));
         }
         tabHome.setViewPager(vpHome,mTitles);
-        HomePresenter presenter = new HomePresenter(view,this);
+        presenter = new HomePresenter(this,mActivity);
         return view;
     }
 
     @Override
     public void initData() {
-
+        presenter.getListInfo();
     }
 
     @Override
     public void onGetListInfo() {
-
+        LogUtils.i("有数据了");
     }
 
     @Override

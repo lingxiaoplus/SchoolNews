@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
  * 备注:这里与服务器约定返回格式
  */
 
-public class HttpResponse {
+public class HttpResponse<T> {
     /**
      * 描述信息
      */
@@ -27,7 +27,7 @@ public class HttpResponse {
      * 数据对象[成功返回对象,失败返回错误说明]
      */
     @SerializedName("result")
-    private Object result;
+    private T result;
 
     /**
      * 是否成功(这里约定200)
@@ -38,10 +38,10 @@ public class HttpResponse {
         return code == 200 ? true : false;
     }
 
-    public String toString() {
+    /*public String toString() {
         String response = "[http response]" + "{\"code\": " + code + ",\"msg\":" + msg + ",\"result\":" + new Gson().toJson(result) + "}";
         return response;
-    }
+    }*/
 
 
     public String getMsg() {
@@ -60,11 +60,11 @@ public class HttpResponse {
         this.code = code;
     }
 
-    public Object getResult() {
+    public T getResult() {
         return result;
     }
 
-    public void setResult(Object result) {
+    public void setResult(T result) {
         this.result = result;
     }
 }

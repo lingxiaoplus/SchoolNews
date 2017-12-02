@@ -20,9 +20,10 @@ public class RetrofitUtils {
     public static final int READ_TIME_OUT = 30;//读数据超时时长x秒
     public static final int WRITE_TIME_OUT = 30;//写数据接超时时长x秒
     private static RetrofitUtils mInstance = null;
+    private Retrofit mRetrofit;
 
     private RetrofitUtils(){
-
+        retrofit();
     }
 
     public static RetrofitUtils getInstence(){
@@ -62,12 +63,16 @@ public class RetrofitUtils {
      *获取retrofit
      */
     public Retrofit retrofit(){
-        Retrofit retrofit = new Retrofit.Builder()
+        mRetrofit = new Retrofit.Builder()
                 .client(okHttpClient())
                 .baseUrl(ContentValue.BASE_API)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
-        return retrofit;
+        return mRetrofit;
+    }
+
+    public <T> T getInterface(Class<T> reqServer){
+        return mRetrofit.create(reqServer);
     }
 }

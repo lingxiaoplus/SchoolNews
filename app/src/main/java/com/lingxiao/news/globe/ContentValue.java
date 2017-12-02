@@ -8,5 +8,5 @@ public class ContentValue {
     /**
      * 接口地址
      */
-    public static final String BASE_API = "http://apicloud.mob.com/";
+    public static final String BASE_API = "http://c.m.163.com";
 }

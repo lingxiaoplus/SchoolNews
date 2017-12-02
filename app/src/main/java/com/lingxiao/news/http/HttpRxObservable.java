@@ -22,13 +22,13 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class HttpRxObservable {
-    public static Observable getObservable(Observable<HttpResponse> apiObservable, LifecycleProvider lifecycle) {
+    public static Observable getObservable(Observable<HttpResponse> apiObservable) {
         //showLog(request);
         Observable observable;
         //随生命周期自动管理.eg:onCreate(start)->onStop(end)
         observable =apiObservable
                 .map(new ServerResultFunction())
-                .compose(lifecycle.bindToLifecycle())//需要在这个位置添加
+                //.compose(lifecycle.bindToLifecycle())//需要在这个位置添加
                 .onErrorResumeNext(new HttpResultFunction<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

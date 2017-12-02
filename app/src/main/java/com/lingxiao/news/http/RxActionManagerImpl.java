@@ -26,6 +26,9 @@ public class RxActionManagerImpl implements RxActionManager<Object>{
         return mInstance;
     }
     @TargetApi(Build.VERSION_CODES.KITKAT)
+    private RxActionManagerImpl() {
+        mMaps = new ArrayMap<>();
+    }
     @Override
     public void add(Object tag, Disposable disposable) {
         mMaps.put(tag, disposable);
