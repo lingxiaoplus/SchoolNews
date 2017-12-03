@@ -30,14 +30,14 @@ import io.reactivex.schedulers.Schedulers;
 
 public class HomePresenter extends BasePresenter<HomeView,Activity> {
     private Activity activity;
-    private DataManager dataManager;
+    private HomeView homeView;
     private final String TAG = HomePresenter.class.getSimpleName();
     public HomePresenter(HomeView view, MainActivity activity) {
         super(view, activity);
         this.activity = activity;
+        this.homeView = view;
     }
     public void getListInfo(){
-        dataManager = new DataManager();
         RetrofitUtils
                 .getInstence()
                 .retrofit()
@@ -54,6 +54,7 @@ public class HomePresenter extends BasePresenter<HomeView,Activity> {
                     @Override
                     public void onNext(HomeListModle homeListModle) {
                         LogUtils.i("获取到的"+homeListModle.getTList().get(0).getImg());
+                        homeView.onGetListInfo(homeListModle.getTList());
                     }
 
                     @Override
