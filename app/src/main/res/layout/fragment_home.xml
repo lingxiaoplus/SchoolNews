@@ -5,25 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <com.flyco.tablayout.SlidingTabLayout
-        android:id="@+id/tab_home"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerViewrecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        tl:tl_iconVisible="false"
-        tl:tl_indicator_corner_radius="20dp"
-        tl:tl_indicator_color="@color/greenDeep"
-        tl:tl_indicator_margin_left="5dp"
-        tl:tl_indicator_margin_right="5dp"
-        tl:tl_indicator_style="BLOCK"
-        tl:tl_textsize="14sp">
-    </com.flyco.tablayout.SlidingTabLayout>
-    <android.support.v4.view.ViewPager
-        android:id="@+id/vp_home"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-    </android.support.v4.view.ViewPager>
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
 </LinearLayout>

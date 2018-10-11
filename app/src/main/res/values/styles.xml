@@ -20,4 +20,18 @@
         <item name="windowNoTitle">true</item>
     </style>
     <!--end no actionbar-->
+
+    <style name="cardTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#99000000</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="cardMessage">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#66000000</item>
+        <item name="android:textSize">18sp</item>
+    </style>
 </resources>

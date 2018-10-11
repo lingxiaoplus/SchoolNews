@@ -12,6 +12,7 @@ import com.flyco.tablayout.listener.CustomTabEntity;
 import com.lingxiao.news.R;
 import com.lingxiao.news.adapter.TabEntity;
 import com.lingxiao.news.presenter.HomePresenter;
+import com.lingxiao.news.retrofit.modle.DetailModel;
 import com.lingxiao.news.retrofit.modle.HomeListModle;
 import com.lingxiao.news.utils.LogUtils;
 import com.lingxiao.news.view.HomeView;
@@ -24,20 +25,16 @@ import java.util.List;
  */
 
 public class HomeFragment extends BaseFragment implements HomeView{
-    private SlidingTabLayout tabHome;
-    private ViewPager vpHome;
-    //private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
-    private List<String> mTitleList = new ArrayList<>();
     private HomePresenter presenter;
+    @Override
+    public int getContentLayoutId() {
+        return R.layout.fragment_home;
+    }
 
     @Override
-    public View initView() {
-        View view = View.inflate(getActivity(),
-                R.layout.fragment_home, null);
-        tabHome = view.findViewById(R.id.tab_home);
-        vpHome = view.findViewById(R.id.vp_home);
+    protected void initWidget(View view) {
+        super.initWidget(view);
         presenter = new HomePresenter(this,mActivity);
-        return view;
     }
 
     @Override
@@ -46,16 +43,8 @@ public class HomeFragment extends BaseFragment implements HomeView{
     }
 
     @Override
-    public void onGetListInfo(List<HomeListModle.TListBean> tList) {
+    public void onGetListInfo(List<DetailModel> tList) {
         LogUtils.i("有数据了");
-        for (int i = 0; i < tList.size(); i++) {
-            mTitleList.add(tList.get(i).getTname());
-            LogUtils.i(tList.get(i).getTname());
-        }
-        vpHome.setAdapter(new MyPagerAdapter());
-        //将list集合转换为string数组
-        String[] mTitles = mTitleList.toArray(new String[mTitleList.size()]);
-        tabHome.setViewPager(vpHome,mTitles);
     }
 
     @Override
@@ -63,35 +52,4 @@ public class HomeFragment extends BaseFragment implements HomeView{
 
     }
 
-    private class MyPagerAdapter extends PagerAdapter {
-        @Override
-        public int getCount() {
-            return mTitleList.size();
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object object) {
-            return view == object;
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            TextView textView = new TextView(getActivity());
-            textView.setText(mTitleList.get(position));
-            textView.setGravity(Gravity.CENTER);
-            textView.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
-            container.addView(textView);
-            return textView;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mTitleList.get(position);
-        }
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            container.removeView((View) object);
-        }
-    }
 }

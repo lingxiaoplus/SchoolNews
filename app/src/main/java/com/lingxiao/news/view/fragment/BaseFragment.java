@@ -1,6 +1,5 @@
 package com.lingxiao.news.view.fragment;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -12,6 +11,7 @@ import com.lingxiao.news.http.listener.LifeCycleListener;
 import com.trello.rxlifecycle2.components.support.RxFragment;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by lingxiao on 17-11-30.
@@ -19,23 +19,38 @@ import butterknife.ButterKnife;
 
 public abstract class BaseFragment extends RxFragment{
     public MainActivity mActivity;
+    private boolean mIsVisibleToUser;
+    private Unbinder mRootUnbinder;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = initView();
+        int layId = getContentLayoutId();
+        View root = inflater.inflate(layId,container,false);
+        initWidget(root);
         mActivity = (MainActivity) getActivity();
-        return view;
+        return root;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        initData();
+        if (mIsVisibleToUser){
+            initData();
+        }
     }
 
-    public abstract View initView();
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        this.mIsVisibleToUser = isVisibleToUser;
+    }
 
+    public abstract int getContentLayoutId();
     public abstract void initData();
+
+    protected void initWidget(View view){
+        mRootUnbinder = ButterKnife.bind(this,view);
+    }
     /**
      * 回调函数
      */
@@ -43,5 +58,14 @@ public abstract class BaseFragment extends RxFragment{
 
     public void setOnLifeCycleListener(LifeCycleListener listener) {
         mListener = listener;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //移除view绑定
+        if (mRootUnbinder != null) {
+            mRootUnbinder.unbind();
+        }
     }
 }

@@ -18,6 +18,7 @@ import com.lingxiao.news.view.fragment.HomeFragment;
 import com.trello.rxlifecycle2.LifecycleProvider;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
+import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -42,10 +43,10 @@ public class HomePresenter extends BasePresenter<HomeView,Activity> {
                 .getInstence()
                 .retrofit()
                 .create(HomeApi.class)
-                .getListInfo()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<HomeListModle>() {
+                .getNewsInfo("T1370583240249","0-20.html") // 第一步：获取Observable
+                .subscribeOn(Schedulers.io()) //发射事件的线程
+                .observeOn(AndroidSchedulers.mainThread()) //接收事件的线程
+                .subscribe(new Observer<HomeListModle>() {//创建Observer Observable和Observer建立订阅关系
                     @Override
                     public void onSubscribe(Disposable d) {
 
@@ -53,18 +54,18 @@ public class HomePresenter extends BasePresenter<HomeView,Activity> {
 
                     @Override
                     public void onNext(HomeListModle homeListModle) {
-                        LogUtils.i("获取到的"+homeListModle.getTList().get(0).getImg());
-                        homeView.onGetListInfo(homeListModle.getTList());
+                        LogUtils.i("获取到的"+homeListModle.getDetailModel().get(0).getTitle());
+                        homeView.onGetListInfo(homeListModle.getDetailModel());
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        LogUtils.i("发射异常"+e.getMessage());
                     }
 
                     @Override
                     public void onComplete() {
-
+                        LogUtils.i("发射完成");
                     }
                 });
     }
