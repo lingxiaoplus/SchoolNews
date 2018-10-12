@@ -23,7 +23,7 @@ public class HomeAdapter extends BaseQuickAdapter<DetailModel,BaseViewHolder> {
         helper.setText(R.id.tv_title,item.getTitle());
         helper.setText(R.id.tv_message,item.getDigest());
         ColorTextView colorTextView = helper.getView(R.id.colorTitle);
-        colorTextView.setText(item.getSource());
+        colorTextView.setText(item.getSource().trim());
         Glide.with(helper.itemView.getContext())
                 .load(item.getImgsrc())
                 .into((ImageView) helper.getView(R.id.iv_title));

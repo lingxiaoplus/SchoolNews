@@ -50,7 +50,9 @@ public class HomeFragment extends BaseFragment implements HomeView {
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(manager);
         mAdapter = new HomeAdapter(R.layout.news_item,mDetailList);
+        mAdapter.openLoadAnimation();
         recyclerView.setAdapter(mAdapter);
+
     }
 
     @Override

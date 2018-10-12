@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.TextView;
 
 import com.lingxiao.news.R;
 
@@ -119,9 +120,9 @@ public class ColorTextView extends View{
         } else {
             mtitlePaint.setTextSize(mTitleTextSize);
             mtitlePaint.getTextBounds(mTitleText, 0, mTitleText.length(), mtitleBound);
-
-            int desired = getPaddingLeft() + mtitleBound.width() + getPaddingRight();
-            width = desired <= widthSize ? desired : widthSize;
+            //measureText 是字体整体宽度 getTextBounds获得的是字符串的最小矩形区域
+            int desired = (int) (getPaddingLeft() + mtitleBound.width() + getPaddingRight());
+            width = Math.min(desired,widthSize);
         }
 
         if (heightMode == MeasureSpec.EXACTLY) {
@@ -130,7 +131,7 @@ public class ColorTextView extends View{
             mtitlePaint.setTextSize(mTitleTextSize);
             mtitlePaint.getTextBounds(mTitleText, 0, mTitleText.length(), mtitleBound);
             int desired = getPaddingTop() + mtitleBound.height() + getPaddingBottom();
-            height = desired <= heightSize ? desired : heightSize;
+            height = Math.max(desired,heightSize);
         }
         setMeasuredDimension(width, height);
     }
