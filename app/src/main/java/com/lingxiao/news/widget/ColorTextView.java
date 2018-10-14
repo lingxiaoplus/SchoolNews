@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import com.lingxiao.news.R;
 
+import java.util.Random;
+
 public class ColorTextView extends View{
     /**
      * 文本内容
@@ -42,7 +44,7 @@ public class ColorTextView extends View{
     private Rect mtitleBound;
     private Paint mtitlePaint;
     private Paint mBackgroundPaint;
-
+    private String[] colors = {"#4CAF50","#E57373","#64B5F6","#7986CB","#9575CD","#F06292","#ffb74d","#4db6ac","#4fc3f7","#4dd0e1"};
     public ColorTextView(Context context) {
         this(context,null);
     }
@@ -86,6 +88,10 @@ public class ColorTextView extends View{
 
         }
         a.recycle();
+
+        Random random = new Random();
+        int ret = random.nextInt(colors.length-1);
+        ctvBackgroundColor = Color.parseColor(colors[ret]);
         mtitlePaint = new Paint();
         mtitlePaint.setTextSize(mTitleTextSize);
         mtitleBound = new Rect();

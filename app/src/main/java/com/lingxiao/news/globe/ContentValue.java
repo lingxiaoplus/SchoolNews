@@ -18,7 +18,7 @@ public class ContentValue {
     /**
      * 独家
      */
-    public static final String TRUTH_URL = "/nc/article/list/T1370583240249/0-20.html";
+    public static final String TRUTH_URL = "T1370583240249";
 
     /**
      * NBA

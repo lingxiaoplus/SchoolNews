@@ -7,9 +7,15 @@
     <!--bottom color-->
     <color name="white">#ffffffff</color>
     <color name="black">#666</color>
-    <color name="colorBlue">#1E88E5</color>
-    <color name="colorLightBlue">#039BE5</color>
-    <color name="colorCyan">#00ACC1</color>
-    <color name="colorTeal">#80CBC4</color>
+    <color name="colorPrimary_Blue">@color/blue500</color>
+    <color name="colorPrimary_LightBlue">@color/light_blue_500</color>
+    <color name="colorPrimary_Cyan">@color/cyan_500</color>
+    <color name="colorPrimary_Teal">@color/teal_500</color>
+    <color name="colorPrimaryDark_Blue">@color/blue700</color>
+    <color name="colorPrimaryDark_LightBlue">@color/light_blue_700</color>
+    <color name="colorPrimaryDark_Cyan">@color/cyan_700</color>
+    <color name="colorPrimaryDark_Teal">@color/teal_700</color>
+
+    <color name="transparent">@android:color/transparent</color>
     <!--end bottom color-->
 </resources>

@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
 
+import com.lingxiao.skinlibrary.SkinLib;
+
 /**
  * Created by lingxiao on 17-11-30.
  */
@@ -19,6 +21,8 @@ public class NewsApplication extends Application {
         mContext = getApplicationContext();
         mHandler = new Handler();
         mainThreadId = android.os.Process.myPid();
+
+        SkinLib.init(this);
     }
 
     public static Context getContext() {

@@ -20,8 +20,17 @@ public class HomeAdapter extends BaseQuickAdapter<DetailModel,BaseViewHolder> {
 
     @Override
     protected void convert(BaseViewHolder helper, DetailModel item) {
-        helper.setText(R.id.tv_title,item.getTitle());
-        helper.setText(R.id.tv_message,item.getDigest());
+        String time = item.getMtime();
+        String[] times = time.split(" ");
+        if (times.length > 0){
+            time = times[0];
+        }
+        helper.setText(R.id.tv_title,item.getTitle())
+                .setText(R.id.tv_message,item.getDigest())
+                .setText(R.id.tv_time,time)
+                .addOnClickListener(R.id.rl_news)
+                .addOnClickListener(R.id.iv_share)
+                .addOnClickListener(R.id.iv_comment);
         ColorTextView colorTextView = helper.getView(R.id.colorTitle);
         colorTextView.setText(item.getSource().trim());
         Glide.with(helper.itemView.getContext())

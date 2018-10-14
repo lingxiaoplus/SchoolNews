@@ -1,5 +1,6 @@
 package com.lingxiao.news.adapter;
 
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -13,20 +14,20 @@ import java.util.List;
  */
 
 public class MainPagerAdapter extends FragmentPagerAdapter{
-    List list;
+    private List<Fragment> mList;
     public MainPagerAdapter(FragmentManager fm, List list) {
         super(fm);
-        this.list = list;
+        this.mList = list;
     }
 
     @Override
     public Fragment getItem(int position) {
-        Fragment fragment = new HomeFragment();
-        return fragment;
+        return mList.get(position);
     }
 
     @Override
     public int getCount() {
-        return list.size();
+        return mList.size();
     }
+
 }

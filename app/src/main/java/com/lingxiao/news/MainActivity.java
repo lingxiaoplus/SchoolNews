@@ -1,6 +1,7 @@
 package com.lingxiao.news;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -13,6 +14,9 @@ import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.lingxiao.news.adapter.MainPagerAdapter;
 import com.lingxiao.news.view.BaseActivity;
+import com.lingxiao.news.view.fragment.HomeFragment;
+import com.lingxiao.news.widget.RippleAnimation;
+import com.lingxiao.skinlibrary.SkinLib;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +25,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity {
-
     @BindView(R.id.tb_title)
     Toolbar tbTitle;
     @BindView(R.id.vp_main)
@@ -49,11 +52,16 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initViewPager() {
-        List<String> list = new ArrayList<>();
-        list.add("首页");
-        list.add("资讯");
-        list.add("精选");
-        list.add("消息");
+        List<Fragment> list = new ArrayList<>();
+        HomeFragment homeFragment = new HomeFragment();
+        HomeFragment homeFragment2 = new HomeFragment();
+        HomeFragment homeFragment3 = new HomeFragment();
+        HomeFragment homeFragment4 = new HomeFragment();
+        list.add(homeFragment);
+        list.add(homeFragment2);
+        list.add(homeFragment3);
+        list.add(homeFragment4);
+
         MainPagerAdapter mAdapter = new MainPagerAdapter
                 (getSupportFragmentManager(),list);
         vpMain.setAdapter(mAdapter);
@@ -66,6 +74,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onPageSelected(int position) {
                 bottomNavigation.selectTab(position);
+
             }
 
             @Override
@@ -75,6 +84,11 @@ public class MainActivity extends BaseActivity {
         });
     }
 
+    private String[] skinNames = {"","LightBlue","Cyan","Teal"};
+    private int[] skins = {R.color.colorPrimary,
+            R.color.colorPrimary_LightBlue,
+            R.color.colorPrimary_Cyan,
+            R.color.colorPrimary_Teal};
     private void initBottomBar() {
         bottomNavigation
                 .setActiveColor(R.color.white)
@@ -84,16 +98,24 @@ public class MainActivity extends BaseActivity {
                 .addItem(new BottomNavigationItem(R.drawable.ic_img_home, items[0])
                         .setActiveColorResource(R.color.colorPrimary))
                 .addItem(new BottomNavigationItem(R.drawable.ic_img_choiceness, items[1])
-                        .setActiveColorResource(R.color.colorLightBlue))
+                        .setActiveColorResource(R.color.colorPrimary_LightBlue))
                 .addItem(new BottomNavigationItem(R.drawable.ic_img_information, items[2])
-                        .setActiveColorResource(R.color.colorCyan))
+                        .setActiveColorResource(R.color.colorPrimary_Cyan))
                 .addItem(new BottomNavigationItem(R.drawable.ic_img_message, items[2])
-                        .setActiveColorResource(R.color.colorTeal))
+                        .setActiveColorResource(R.color.colorPrimary_Teal))
                 .setFirstSelectedPosition(0)
                 .initialise();//所有的设置需在调用该方法前完成
         bottomNavigation.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {
             @Override
             public void onTabSelected(int position) {
+                RippleAnimation.create(vpMain)
+                        .setDuration(1000).start();
+                if (position == 0){
+                    SkinLib.resetSkin();
+                }else {
+                    SkinLib.loadSkin(skinNames[position]);
+                }
+                initTopBarColor(skins[position]);
                 vpMain.setCurrentItem(position);
             }
 

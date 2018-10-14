@@ -2,11 +2,13 @@ package com.lingxiao.news.utils;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
 
+import com.lingxiao.news.R;
 import com.lingxiao.news.globe.NewsApplication;
 /**
  * Created by lingxiao on 2017/6/13.
@@ -90,5 +92,20 @@ public class UIUtils {
     public static int sp2px(Context context, float spValue) {
         final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
         return (int) (spValue * fontScale + 0.5f);
+    }
+
+    /**
+     * 生成去除广告的js代码
+     * @return
+     */
+    public static String getClearAdDivJs(){
+        String js = "javascript:";
+        Resources res = getContext().getResources();
+        String[] adDivs = res.getStringArray(R.array.adBlockDiv);
+        for(int i=0;i<adDivs.length;i++){
+            //js += "var adDiv"+i+"= document.getElementsByClassName('"+adDivs[i]+"')[0];if(adDiv"+i+" != null)adDiv"+i+".parentNode.removeChild(adDiv"+i+");";
+            js += "var adDiv"+i+"= document.getElementsByTagName('"+adDivs[i]+"')[0];if(adDiv"+i+" != null)return adDiv"+i+";";
+        }
+        return js;
     }
 }
