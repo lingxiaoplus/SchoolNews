@@ -19,7 +19,7 @@ public class DataManager {
                         .getInstence()
                         .getInterface(HomeApi.class);
     }
-    public Observable<HomeListModle> getListInfo(String type, String limit){
+    public Observable<ResponseBody> getListInfo(String type, String limit){
         return homeApi.getNewsInfo(type,limit);
     }
 }

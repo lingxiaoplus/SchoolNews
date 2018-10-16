@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.lingxiao.news.adapter.MainPagerAdapter;
+import com.lingxiao.news.globe.ContentValue;
 import com.lingxiao.news.view.BaseActivity;
 import com.lingxiao.news.view.fragment.HomeFragment;
 import com.lingxiao.news.widget.RippleAnimation;
@@ -51,20 +52,12 @@ public class MainActivity extends BaseActivity {
         initViewPager();
     }
 
+    private Bundle bundle = new Bundle();
     private void initViewPager() {
-        List<Fragment> list = new ArrayList<>();
-        HomeFragment homeFragment = new HomeFragment();
-        HomeFragment homeFragment2 = new HomeFragment();
-        HomeFragment homeFragment3 = new HomeFragment();
-        HomeFragment homeFragment4 = new HomeFragment();
-        list.add(homeFragment);
-        list.add(homeFragment2);
-        list.add(homeFragment3);
-        list.add(homeFragment4);
-
         MainPagerAdapter mAdapter = new MainPagerAdapter
-                (getSupportFragmentManager(),list);
+                (getSupportFragmentManager());
         vpMain.setAdapter(mAdapter);
+        vpMain.setOffscreenPageLimit(1);
         vpMain.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

@@ -1,14 +1,18 @@
 package com.lingxiao.news.utils;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
+import com.lingxiao.news.retrofit.modle.DetailModel;
 import com.lingxiao.news.retrofit.modle.HomeListModle;
 import com.lingxiao.news.retrofit.modle.NewsDetailModel;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JsonUtils {
     private static Gson mGson = new Gson();
@@ -35,17 +39,20 @@ public class JsonUtils {
      * @param docId
      * @return
      */
-    public static HomeListModle readJsonNewsList(String res, String docId) {
-        HomeListModle newsList = null;
+    public static List<DetailModel> readJsonNewsList(String res, String docId) {
+        //HomeListModle newsList = null;
+        List<DetailModel> newsList = null;
         try {
             LogUtils.d("得到的："+res);
             JsonParser parser = new JsonParser();
+            //JsonArray jsonArray = parser.parse(res).getAsJsonArray();
             JsonObject jsonObj = parser.parse(res).getAsJsonObject();
             JsonElement jsonElement = jsonObj.get(docId);
+
             if (jsonElement == null) {
                 return null;
             }
-            newsList = JsonUtils.deserialize(jsonElement.getAsJsonObject(), HomeListModle.class);
+            newsList = JsonUtils.deserialize(jsonElement.getAsJsonArray(),DetailModel.class);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -85,6 +92,20 @@ public class JsonUtils {
      */
     public static <T> T deserialize(JsonObject json, Class<T> clz) throws JsonSyntaxException {
         return mGson.fromJson(json, clz);
+    }
+
+    /**
+     * 将json对象转换为列表
+     *
+     * @return
+     * @throws JsonSyntaxException
+     */
+    public static <T> List<T> deserialize(JsonArray jsonArray,Class<T> clazz) throws JsonSyntaxException {
+        List<T> mList = new ArrayList<T>();
+        for(JsonElement elem : jsonArray){
+            mList.add(mGson.fromJson(elem, clazz));
+        }
+        return mList;
     }
 
     /**

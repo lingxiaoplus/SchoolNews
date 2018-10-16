@@ -1,10 +1,12 @@
 package com.lingxiao.news.adapter;
 
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.lingxiao.news.globe.ContentValue;
 import com.lingxiao.news.view.fragment.HomeFragment;
 
 import java.util.List;
@@ -14,20 +16,27 @@ import java.util.List;
  */
 
 public class MainPagerAdapter extends FragmentPagerAdapter{
-    private List<Fragment> mList;
-    public MainPagerAdapter(FragmentManager fm, List list) {
+    //private List<Fragment> mList;
+    public MainPagerAdapter(FragmentManager fm) {
         super(fm);
-        this.mList = list;
+        //this.mList = list;
     }
-
+    private Bundle bundle = new Bundle();
     @Override
     public Fragment getItem(int position) {
-        return mList.get(position);
+        HomeFragment homeFragment = new HomeFragment();
+        if (position == 0){
+            bundle.putString("type",ContentValue.TRUTH_URL);
+        }else {
+            bundle.putString("type",ContentValue.HEADLINE_URL);
+        }
+        homeFragment.setArguments(bundle);
+        return homeFragment;
     }
 
     @Override
     public int getCount() {
-        return mList.size();
+        return 4;
     }
 
 }

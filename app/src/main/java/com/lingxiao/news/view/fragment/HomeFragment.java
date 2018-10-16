@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,11 +41,12 @@ public class HomeFragment extends BaseFragment implements HomeView {
     RecyclerView recyclerView;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
-    private HomePresenter presenter;
+
     private List<DetailModel> mDetailList = new ArrayList<>();
     private HomeAdapter mAdapter;
     private int mPage = 1;
-
+    private static final String TAG = HomeFragment.class.getSimpleName();
+    private HomePresenter presenter = new HomePresenter(this, this);
     @Override
     public int getContentLayoutId() {
         return R.layout.fragment_home;
@@ -53,12 +55,14 @@ public class HomeFragment extends BaseFragment implements HomeView {
     @Override
     protected void initWidget(View view) {
         super.initWidget(view);
-        presenter = new HomePresenter(this, mActivity);
+
     }
 
     @Override
-    public void initData() {
-        presenter.getListInfo(ContentValue.TRUTH_URL,1);
+    public void initData(Bundle bundle) {
+        String type = bundle.getString("type");
+        Log.i(TAG, "获取到的bundle数据："+type);
+        presenter.getListInfo(type,1);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(manager);
         mAdapter = new HomeAdapter(R.layout.news_item, mDetailList);

@@ -27,7 +27,7 @@ public class ContentValue {
     /**
      * 头条
      */
-    public static final String HEADLINE_URL = "/nc/article/headline/T1348647909107/0-40.html";
+    public static final String HEADLINE_URL = "T1348647909107";
 
     /**
      * 精选

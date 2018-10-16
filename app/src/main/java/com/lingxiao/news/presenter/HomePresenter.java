@@ -1,6 +1,8 @@
 package com.lingxiao.news.presenter;
 
 import android.app.Activity;
+import android.support.v4.app.Fragment;
+import android.util.Log;
 
 import com.lingxiao.news.MainActivity;
 import com.lingxiao.news.exception.ApiException;
@@ -16,6 +18,7 @@ import com.lingxiao.news.utils.JsonUtils;
 import com.lingxiao.news.utils.LogUtils;
 import com.lingxiao.news.view.BaseActivity;
 import com.lingxiao.news.view.HomeView;
+import com.lingxiao.news.view.fragment.BaseFragment;
 import com.lingxiao.news.view.fragment.HomeFragment;
 import com.trello.rxlifecycle2.LifecycleProvider;
 import com.trello.rxlifecycle2.android.ActivityEvent;
@@ -35,15 +38,15 @@ import okhttp3.ResponseBody;
  * Created by lingxiao on 17-12-1.
  */
 
-public class HomePresenter extends BasePresenter<HomeView,Activity> {
-    private Activity activity;
+public class HomePresenter extends BasePresenter<HomeView,Fragment> {
+    private HomeFragment fragment;
     private HomeView homeView;
     private final String TAG = HomePresenter.class.getSimpleName();
     private int start = 0;
     private int end = 20;
-    public HomePresenter(HomeView view, MainActivity activity) {
-        super(view, activity);
-        this.activity = activity;
+    public HomePresenter(HomeView view, HomeFragment fragment) {
+        super(view, fragment);
+        this.fragment = fragment;
         this.homeView = view;
     }
     public void getListInfo(final String type, int page){
@@ -55,17 +58,27 @@ public class HomePresenter extends BasePresenter<HomeView,Activity> {
                 .retrofit()
                 .create(HomeApi.class)
                 .getNewsInfo(type,limit) // 第一步：获取Observable
+                .map(new Function<ResponseBody, List<DetailModel>>() {
+                    @Override
+                    public List<DetailModel> apply(ResponseBody responseBody) throws Exception {
+                        String body  = responseBody.string();
+                        Log.e(TAG, "获取详情返回的值："+body);
+                        List<DetailModel> modelList = JsonUtils.readJsonNewsList(
+                                body,type);
+                        return modelList;
+                    }
+                })
                 .subscribeOn(Schedulers.io()) //发射事件的线程
                 .observeOn(AndroidSchedulers.mainThread()) //接收事件的线程
-                .subscribe(new Observer<HomeListModle>() {//创建Observer Observable和Observer建立订阅关系
+                .subscribe(new Observer<List<DetailModel>>() {//创建Observer Observable和Observer建立订阅关系
                     @Override
                     public void onSubscribe(Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(HomeListModle homeListModle) {
-                        homeView.onGetListInfo(homeListModle.getDetailModel());
+                    public void onNext(List<DetailModel> modelList) {
+                        homeView.onGetListInfo(modelList);
                     }
 
                     @Override

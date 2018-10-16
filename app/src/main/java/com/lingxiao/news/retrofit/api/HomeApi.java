@@ -17,7 +17,7 @@ import retrofit2.http.Path;
 
 public interface HomeApi {
     @GET("/nc/article/list/{type}/{limit}")
-    Observable<HomeListModle> getNewsInfo(@Path("type") String type, @Path("limit") String limit);
+    Observable<ResponseBody> getNewsInfo(@Path("type") String type, @Path("limit") String limit);
 
     @GET("/nc/article/{id}/full.html")
     Observable<ResponseBody> getNewsDetail(@Path("id") String id);
